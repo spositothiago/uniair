@@ -1,10 +1,28 @@
 package basicas;
 
+import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+@Entity
 public class AirPlane {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="airplaneId")
 	private int id;
+	@OneToMany(mappedBy = "airplane", fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
+	private Collection<Flight> voos;
 	private String model;
 	private int capacity;
 	private int year;
@@ -45,5 +63,11 @@ public class AirPlane {
 	}
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+	public Collection<Flight> getVoos() {
+		return voos;
+	}
+	public void setVoos(Collection<Flight> voos) {
+		this.voos = voos;
 	}
 }

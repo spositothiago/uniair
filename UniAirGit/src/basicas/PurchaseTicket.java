@@ -2,9 +2,20 @@ package basicas;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+@Entity
 public class PurchaseTicket {
+	@OneToMany(mappedBy = "purchaseTicketp", fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
 	private Purchase purchase;
+	@OneToMany(mappedBy = "purchaseTickett", fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
 	private Ticket ticket;
 	private Date logAt;
 	private int userId;

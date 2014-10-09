@@ -1,9 +1,28 @@
 package basicas;
 
+import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+@Entity
 public class Payment {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="paymentId")
 	private int id;
+	@OneToMany(mappedBy = "payment", fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
+	private Collection<Purchase> purchases;
 	private String name;
 	private boolean status;
 	private Date logAt;

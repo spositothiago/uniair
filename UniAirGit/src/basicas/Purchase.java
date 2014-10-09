@@ -1,15 +1,42 @@
 package basicas;
 
+import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+@Entity
 public class Purchase {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int purchaseId;
 	private Customer customer;
 	private double value;
 	private Date purchaseDate;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="paymentId", insertable=true, updatable=true)
+	@Fetch(FetchMode.JOIN)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Payment payment;
 	private Date logAt;
 	private int userId;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="purchase", insertable=true, updatable=true)
+	@Fetch(FetchMode.JOIN)
+	@Cascade(CascadeType.SAVE_UPDATE)
+	private PurchaseTicket purchaseTicketp;
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -45,5 +72,11 @@ public class Purchase {
 	}
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+	public int getPurchaseId() {
+		return purchaseId;
+	}
+	public void setPurchaseId(int purchaseId) {
+		this.purchaseId = purchaseId;
 	}
 }
