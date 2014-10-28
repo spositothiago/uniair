@@ -76,6 +76,16 @@ public class DAOGenerico<T> {
 		return instance;
 	}
 	
+	public final Collection<T> listarTodos(){
+		Collection<T> instance = null;
+		try{
+			instance = (Collection<T>)getEntityManager().createQuery("select * from " + getClassPersistence().getName()).getResultList();
+		}catch (PersistenceException e){
+			e.printStackTrace();
+		}
+		return instance;
+	}
+	
 	public final void refresh(T obj){
 		getEntityManager().refresh(obj);
 	}

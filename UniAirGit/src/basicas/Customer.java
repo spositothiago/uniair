@@ -28,7 +28,12 @@ public class Customer {
 	private String phone;
 	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
 	@Cascade(CascadeType.ALL)
-	private Collection<Ticket> tickets;
+	private Collection<Ticket> ticketsCustomer;
+	
+	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
+	private Collection<Purchase> purchases;
+	
 	public int getId() {
 		return id;
 	}
@@ -70,5 +75,17 @@ public class Customer {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public Collection<Ticket> getTickets() {
+		return ticketsCustomer;
+	}
+	public void setTickets(Collection<Ticket> tickets) {
+		this.ticketsCustomer = tickets;
+	}
+	public Collection<Purchase> getPurchases() {
+		return purchases;
+	}
+	public void setPurchases(Collection<Purchase> purchases) {
+		this.purchases = purchases;
 	}
 }

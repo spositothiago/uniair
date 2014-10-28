@@ -22,7 +22,13 @@ public class Purchase {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int purchaseId;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="customerId", insertable=true, updatable=true)
+	@Fetch(FetchMode.JOIN)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Customer customer;
+	
 	private double value;
 	private Date purchaseDate;
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -30,13 +36,14 @@ public class Purchase {
 	@Fetch(FetchMode.JOIN)
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Payment payment;
+	
 	private Date logAt;
 	private int userId;
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="purchase", insertable=true, updatable=true)
-	@Fetch(FetchMode.JOIN)
-	@Cascade(CascadeType.SAVE_UPDATE)
-	private PurchaseTicket purchaseTicketp;
+	
+	@OneToMany(mappedBy = "purchase", fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
+	private Collection<Ticket> ticketsPurchase;
+	
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -78,5 +85,11 @@ public class Purchase {
 	}
 	public void setPurchaseId(int purchaseId) {
 		this.purchaseId = purchaseId;
+	}
+	public Collection<Ticket> getTicketsPurchase() {
+		return ticketsPurchase;
+	}
+	public void setTicketsPurchase(Collection<Ticket> ticketsPurchase) {
+		this.ticketsPurchase = ticketsPurchase;
 	}
 }

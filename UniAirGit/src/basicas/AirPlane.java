@@ -20,7 +20,7 @@ public class AirPlane {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="airplaneId")
 	private int id;
-	@OneToMany(mappedBy = "airplane", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "airPlane", fetch = FetchType.LAZY)
 	@Cascade(CascadeType.ALL)
 	private Collection<Flight> voos;
 	private String model;

@@ -1,14 +1,17 @@
 package basicas;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -16,31 +19,41 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 
+@Entity
 public class Flight {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="flightId")
 	private int id;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="airplaneId", insertable=true, updatable=true)
 	@Fetch(FetchMode.JOIN)
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private AirPlane airPlane;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="iata", insertable=true, updatable=true)
+	@JoinColumn(name="iata", insertable=false, updatable=false)
 	@Fetch(FetchMode.JOIN)
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Destination from;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="iata", insertable=true, updatable=true)
+	@JoinColumn(name="iata", insertable=false, updatable=false)
 	@Fetch(FetchMode.JOIN)
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Destination to;
+	
 	private Date flightDate;
 	private Date LandingDate;
 	private String code;
 	private Date logAt;
 	private int userId;
+	
+	@OneToMany(mappedBy = "flight", fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
+	private Collection<Ticket> ticketsFlight;
+	
 	public int getId() {
 		return id;
 	}
@@ -94,5 +107,11 @@ public class Flight {
 	}
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+	public Collection<Ticket> getTicket() {
+		return ticketsFlight;
+	}
+	public void setTicket(Collection<Ticket> tickets) {
+		this.ticketsFlight = tickets;
 	}
 }

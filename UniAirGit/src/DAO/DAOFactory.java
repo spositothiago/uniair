@@ -8,7 +8,7 @@ public abstract class DAOFactory {
 	private static EntityManager manager;
 	private static final EntityManagerFactory factory;
 	static {
-		factory = Persistence.createEntityManagerFactory("hibernate");
+		factory = Persistence.createEntityManagerFactory("persistence");
 		if(manager == null || !manager.isOpen()){
 			manager = factory.createEntityManager();
 		}

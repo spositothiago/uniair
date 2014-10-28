@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -20,15 +21,23 @@ public class Ticket {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="ticketId")
 	private int id;
-	private Flight flight;
-	private double price;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="purchase", insertable=true, updatable=true)
+	@JoinColumn(name="ticketsFlight", insertable=true, updatable=true)
 	@Fetch(FetchMode.JOIN)
 	@Cascade(CascadeType.SAVE_UPDATE)
-	private PurchaseTicket purchaseTickett;
+	private Flight flight;
+	
+	private double price;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="ticketId", insertable=true, updatable=true)
+	@JoinColumn(name="ticketsPurchase", insertable=true, updatable=true)
+	@Fetch(FetchMode.JOIN)
+	@Cascade(CascadeType.SAVE_UPDATE)
+	private Purchase purchase;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="ticketsCustomer", insertable=true, updatable=true)
 	@Fetch(FetchMode.JOIN)
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Customer customer;
